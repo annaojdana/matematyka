@@ -308,7 +308,7 @@
                 <span id="num1">12</span> i <span id="num2">8</span>
             </div>
             <div class="input-group">
-                <input type="number" id="answer" placeholder="Twoja odpowiedź" min="1">
+                <input type="number" id="answer" placeholder="Odp" min="1">
             </div>
             <div class="buttons">
                 <button class="btn-check" onclick="checkAnswer()">Sprawdź</button>
@@ -378,8 +378,21 @@
 
         // Generowanie nowego zadania
         function newTask() {
-            currentNum1 = Math.floor(Math.random() * 99) + 2; // 2-100
-            currentNum2 = Math.floor(Math.random() * 99) + 2;
+            // Generujemy liczby które zawsze mają wspólny dzielnik > 1
+            const commonDivisor = Math.floor(Math.random() * 9) + 2; // 2-10
+            const multiplier1 = Math.floor(Math.random() * 14) + 2; // 2-15
+            const multiplier2 = Math.floor(Math.random() * 14) + 2; // 2-15
+
+            currentNum1 = commonDivisor * multiplier1;
+            currentNum2 = commonDivisor * multiplier2;
+
+            // Opcjonalnie: upewniamy się że liczby nie są zbyt duże
+            if (currentNum1 > 100 || currentNum2 > 100) {
+                // Jeśli za duże, zmniejszamy mnożniki
+                const scale = Math.max(currentNum1, currentNum2) / 100;
+                currentNum1 = Math.floor(currentNum1 / scale);
+                currentNum2 = Math.floor(currentNum2 / scale);
+            }
 
             document.getElementById('num1').textContent = currentNum1;
             document.getElementById('num2').textContent = currentNum2;

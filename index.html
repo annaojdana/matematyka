@@ -364,16 +364,26 @@
             return factors;
         }
 
-        // Formatowanie czynników do wyświetlenia
+        // Formatowanie czynników do wyświetlenia (pełny iloczyn)
         function formatFactors(factors) {
             if (factors.length === 0) return '1';
-            let factorCount = {};
-            factors.forEach(f => {
-                factorCount[f] = (factorCount[f] || 0) + 1;
+            return factors.join(' × ');
+        }
+
+        // Znajdowanie wspólnych czynników
+        function findCommonFactors(factors1, factors2) {
+            let common = [];
+            let temp2 = [...factors2];
+
+            factors1.forEach(f => {
+                let index = temp2.indexOf(f);
+                if (index !== -1) {
+                    common.push(f);
+                    temp2.splice(index, 1);
+                }
             });
-            return Object.entries(factorCount)
-                .map(([base, exp]) => exp > 1 ? `${base}^${exp}` : base)
-                .join(' × ');
+
+            return common;
         }
 
         // Generowanie nowego zadania
@@ -451,18 +461,26 @@
         function showExplanation() {
             const factors1 = primeFactorization(currentNum1);
             const factors2 = primeFactorization(currentNum2);
+            const commonFactors = findCommonFactors(factors1, factors2);
             const nwdValue = gcd(currentNum1, currentNum2);
             const nwwValue = lcm(currentNum1, currentNum2);
 
             let explanation = `
-                <p><strong>Liczba ${currentNum1}:</strong> ${formatFactors(factors1)}</p>
-                <p><strong>Liczba ${currentNum2}:</strong> ${formatFactors(factors2)}</p>
+                <p><strong>Rozkład na czynniki:</strong></p>
+                <p>${currentNum1} = ${formatFactors(factors1)}</p>
+                <p>${currentNum2} = ${formatFactors(factors2)}</p>
+                <br>
+                <p><strong>Wspólne czynniki:</strong> ${formatFactors(commonFactors)}</p>
+                <p style="font-size: 0.9em; color: #666;">To są liczby, które występują w obu rozkładach.</p>
                 <br>
                 <p><strong>NWD(${currentNum1}, ${currentNum2}) = ${nwdValue}</strong></p>
-                <p style="font-size: 0.9em;">Największy wspólny dzielnik - największa liczba, która dzieli obie liczby.</p>
+                <p style="font-size: 0.9em; color: #666;">Mnożymy wspólne czynniki: ${formatFactors(commonFactors)} = ${nwdValue}</p>
+                <p style="font-size: 0.85em; color: #888;">NWD to największa liczba, która dzieli obie liczby.</p>
                 <br>
                 <p><strong>NWW(${currentNum1}, ${currentNum2}) = ${nwwValue}</strong></p>
-                <p style="font-size: 0.9em;">Najmniejsza wspólna wielokrotność = (${currentNum1} × ${currentNum2}) ÷ ${nwdValue}</p>
+                <p style="font-size: 0.9em; color: #666;">Mnożymy obie liczby i dzielimy przez NWD:</p>
+                <p style="font-size: 0.9em; color: #666;">${currentNum1} × ${currentNum2} ÷ ${nwdValue} = ${currentNum1 * currentNum2} ÷ ${nwdValue} = ${nwwValue}</p>
+                <p style="font-size: 0.85em; color: #888;">NWW to najmniejsza liczba, która dzieli się przez obie liczby.</p>
             `;
 
             document.getElementById('explanationContent').innerHTML = explanation;

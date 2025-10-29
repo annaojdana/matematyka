@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ćwiczenia - NWD i NWW</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 0.9em;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 10px;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 0.85em;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 2em;
+            font-weight: bold;
+        }
+
+        .correct {
+            color: #10b981;
+        }
+
+        .incorrect {
+            color: #ef4444;
+        }
+
+        .task-type {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .task-type button {
+            padding: 12px 30px;
+            margin: 0 10px;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .task-type button.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .task-type button:hover {
+            transform: scale(1.05);
+        }
+
+        .question {
+            background: #f9fafb;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .question-text {
+            font-size: 1.5em;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .numbers {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #667eea;
+            margin: 20px 0;
+        }
+
+        .input-group {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        input[type="number"] {
+            padding: 15px;
+            font-size: 1.5em;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            width: 150px;
+            text-align: center;
+            transition: border-color 0.3s;
+        }
+
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-check {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
+
+        .btn-check:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-new {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-new:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-show {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+        }
+
+        .btn-show:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(245, 158, 11, 0.4);
+        }
+
+        .feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.1em;
+            font-weight: 600;
+            display: none;
+        }
+
+        .feedback.show {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+
+        .feedback.success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 2px solid #10b981;
+        }
+
+        .feedback.error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 2px solid #ef4444;
+        }
+
+        .explanation {
+            margin-top: 20px;
+            padding: 20px;
+            background: #fef3c7;
+            border: 2px solid #f59e0b;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .explanation.show {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+
+        .explanation h3 {
+            color: #92400e;
+            margin-bottom: 10px;
+        }
+
+        .explanation-content {
+            color: #78350f;
+            line-height: 1.6;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .numbers {
+                font-size: 2em;
+            }
+
+            input[type="number"] {
+                width: 120px;
+                font-size: 1.2em;
+            }
+
+            .task-type button {
+                margin: 5px;
+                padding: 10px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎓 Matematyka</h1>
+        <p class="subtitle">Ćwicz NWD i NWW</p>
+
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-label">Poprawne</div>
+                <div class="stat-value correct" id="correctCount">0</div>
+            </div>
+            <div class="stat">
+                <div class="stat-label">Błędne</div>
+                <div class="stat-value incorrect" id="incorrectCount">0</div>
+            </div>
+        </div>
+
+        <div class="task-type">
+            <button id="nwdBtn" class="active" onclick="changeTaskType('NWD')">NWD</button>
+            <button id="nwwBtn" onclick="changeTaskType('NWW')">NWW</button>
+        </div>
+
+        <div class="question">
+            <div class="question-text">Oblicz <span id="taskTypeName">NWD</span>:</div>
+            <div class="numbers">
+                <span id="num1">12</span> i <span id="num2">8</span>
+            </div>
+            <div class="input-group">
+                <input type="number" id="answer" placeholder="Twoja odpowiedź" min="1">
+            </div>
+            <div class="buttons">
+                <button class="btn-check" onclick="checkAnswer()">Sprawdź</button>
+                <button class="btn-new" onclick="newTask()">Nowe zadanie</button>
+                <button class="btn-show" onclick="showExplanation()">Pokaż rozwiązanie</button>
+            </div>
+
+            <div class="feedback" id="feedback"></div>
+            <div class="explanation" id="explanation">
+                <h3>Rozwiązanie:</h3>
+                <div class="explanation-content" id="explanationContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentTaskType = 'NWD';
+        let currentNum1 = 12;
+        let currentNum2 = 8;
+        let correctAnswers = 0;
+        let incorrectAnswers = 0;
+
+        // Funkcja obliczająca NWD (Algorytm Euklidesa)
+        function gcd(a, b) {
+            while (b !== 0) {
+                let temp = b;
+                b = a % b;
+                a = temp;
+            }
+            return a;
+        }
+
+        // Funkcja obliczająca NWW
+        function lcm(a, b) {
+            return (a * b) / gcd(a, b);
+        }
+
+        // Rozkład na czynniki pierwsze
+        function primeFactorization(n) {
+            let factors = [];
+            let d = 2;
+            while (n > 1) {
+                while (n % d === 0) {
+                    factors.push(d);
+                    n /= d;
+                }
+                d++;
+                if (d * d > n && n > 1) {
+                    factors.push(n);
+                    break;
+                }
+            }
+            return factors;
+        }
+
+        // Formatowanie czynników do wyświetlenia
+        function formatFactors(factors) {
+            if (factors.length === 0) return '1';
+            let factorCount = {};
+            factors.forEach(f => {
+                factorCount[f] = (factorCount[f] || 0) + 1;
+            });
+            return Object.entries(factorCount)
+                .map(([base, exp]) => exp > 1 ? `${base}^${exp}` : base)
+                .join(' × ');
+        }
+
+        // Generowanie nowego zadania
+        function newTask() {
+            currentNum1 = Math.floor(Math.random() * 99) + 2; // 2-100
+            currentNum2 = Math.floor(Math.random() * 99) + 2;
+
+            document.getElementById('num1').textContent = currentNum1;
+            document.getElementById('num2').textContent = currentNum2;
+            document.getElementById('answer').value = '';
+            document.getElementById('feedback').classList.remove('show');
+            document.getElementById('explanation').classList.remove('show');
+            document.getElementById('answer').focus();
+        }
+
+        // Zmiana typu zadania
+        function changeTaskType(type) {
+            currentTaskType = type;
+            document.getElementById('taskTypeName').textContent = type;
+
+            // Aktualizacja przycisków
+            if (type === 'NWD') {
+                document.getElementById('nwdBtn').classList.add('active');
+                document.getElementById('nwwBtn').classList.remove('active');
+            } else {
+                document.getElementById('nwwBtn').classList.add('active');
+                document.getElementById('nwdBtn').classList.remove('active');
+            }
+
+            newTask();
+        }
+
+        // Sprawdzanie odpowiedzi
+        function checkAnswer() {
+            const userAnswer = parseInt(document.getElementById('answer').value);
+            const correctAnswer = currentTaskType === 'NWD'
+                ? gcd(currentNum1, currentNum2)
+                : lcm(currentNum1, currentNum2);
+
+            const feedbackEl = document.getElementById('feedback');
+
+            if (isNaN(userAnswer)) {
+                feedbackEl.textContent = '⚠️ Wpisz odpowiedź!';
+                feedbackEl.className = 'feedback error show';
+                return;
+            }
+
+            if (userAnswer === correctAnswer) {
+                correctAnswers++;
+                document.getElementById('correctCount').textContent = correctAnswers;
+                feedbackEl.textContent = '✅ Świetnie! Dobrze!';
+                feedbackEl.className = 'feedback success show';
+            } else {
+                incorrectAnswers++;
+                document.getElementById('incorrectCount').textContent = incorrectAnswers;
+                feedbackEl.textContent = `❌ Nie tym razem. Prawidłowa odpowiedź to ${correctAnswer}`;
+                feedbackEl.className = 'feedback error show';
+            }
+        }
+
+        // Pokazanie wyjaśnienia
+        function showExplanation() {
+            const factors1 = primeFactorization(currentNum1);
+            const factors2 = primeFactorization(currentNum2);
+            const nwdValue = gcd(currentNum1, currentNum2);
+            const nwwValue = lcm(currentNum1, currentNum2);
+
+            let explanation = `
+                <p><strong>Liczba ${currentNum1}:</strong> ${formatFactors(factors1)}</p>
+                <p><strong>Liczba ${currentNum2}:</strong> ${formatFactors(factors2)}</p>
+                <br>
+                <p><strong>NWD(${currentNum1}, ${currentNum2}) = ${nwdValue}</strong></p>
+                <p style="font-size: 0.9em;">Największy wspólny dzielnik - największa liczba, która dzieli obie liczby.</p>
+                <br>
+                <p><strong>NWW(${currentNum1}, ${currentNum2}) = ${nwwValue}</strong></p>
+                <p style="font-size: 0.9em;">Najmniejsza wspólna wielokrotność = (${currentNum1} × ${currentNum2}) ÷ ${nwdValue}</p>
+            `;
+
+            document.getElementById('explanationContent').innerHTML = explanation;
+            document.getElementById('explanation').classList.add('show');
+        }
+
+        // Obsługa klawisza Enter
+        document.getElementById('answer').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkAnswer();
+            }
+        });
+
+        // Inicjalizacja - generowanie pierwszego zadania
+        window.onload = function() {
+            newTask();
+        };
+    </script>
+</body>
+</html>

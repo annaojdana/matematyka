@@ -26,7 +26,7 @@
             border-radius: 20px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             padding: 40px;
-            max-width: 600px;
+            max-width: 700px;
             width: 100%;
         }
 
@@ -104,25 +104,145 @@
             transform: scale(1.05);
         }
 
+        .progress-bar {
+            background: #e5e7eb;
+            border-radius: 10px;
+            height: 8px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+
+        .step-indicator {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 0.95em;
+            color: #666;
+        }
+
         .question {
             background: #f9fafb;
             padding: 30px;
             border-radius: 15px;
             margin-bottom: 20px;
-            text-align: center;
         }
 
         .question-text {
-            font-size: 1.5em;
+            font-size: 1.3em;
             color: #333;
             margin-bottom: 20px;
+            text-align: center;
         }
 
         .numbers {
-            font-size: 2.5em;
+            font-size: 2em;
             font-weight: bold;
             color: #667eea;
             margin: 20px 0;
+            text-align: center;
+        }
+
+        /* Interfejs "przy kresce" */
+        .factorization-box {
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 300px;
+        }
+
+        .factorization-title {
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .kreska-row {
+            display: flex;
+            align-items: center;
+            margin: 8px 0;
+            font-size: 1.3em;
+        }
+
+        .kreska-number {
+            width: 70px;
+            text-align: right;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .kreska-divider {
+            width: 2px;
+            background: #333;
+            height: 30px;
+            margin: 0 15px;
+        }
+
+        .kreska-input {
+            width: 70px;
+            padding: 8px;
+            font-size: 1.1em;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .kreska-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .kreska-result {
+            font-weight: bold;
+            color: #10b981;
+        }
+
+        /* Zaznaczanie wspólnych czynników */
+        .factors-selection {
+            margin: 20px 0;
+        }
+
+        .factors-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin: 15px 0;
+        }
+
+        .factor-item {
+            padding: 12px 20px;
+            background: #e5e7eb;
+            border: 2px solid #d1d5db;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.2em;
+            font-weight: bold;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .factor-item:hover {
+            transform: scale(1.05);
+        }
+
+        .factor-item.selected {
+            background: #d1fae5;
+            border-color: #10b981;
+            color: #065f46;
+        }
+
+        .factor-item.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
         }
 
         .input-group {
@@ -152,6 +272,7 @@
             gap: 15px;
             justify-content: center;
             flex-wrap: wrap;
+            margin-top: 20px;
         }
 
         button {
@@ -174,6 +295,12 @@
             box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
         }
 
+        .btn-check:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
         .btn-new {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -184,12 +311,12 @@
             box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
         }
 
-        .btn-show {
+        .btn-skip {
             background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
             color: white;
         }
 
-        .btn-show:hover {
+        .btn-skip:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(245, 158, 11, 0.4);
         }
@@ -221,28 +348,12 @@
             border: 2px solid #ef4444;
         }
 
-        .explanation {
-            margin-top: 20px;
-            padding: 20px;
-            background: #fef3c7;
-            border: 2px solid #f59e0b;
-            border-radius: 10px;
-            display: none;
-        }
-
-        .explanation.show {
-            display: block;
-            animation: slideIn 0.3s ease;
-        }
-
-        .explanation h3 {
-            color: #92400e;
-            margin-bottom: 10px;
-        }
-
-        .explanation-content {
-            color: #78350f;
-            line-height: 1.6;
+        .hint {
+            text-align: center;
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 10px;
+            font-style: italic;
         }
 
         @keyframes slideIn {
@@ -266,17 +377,16 @@
             }
 
             .numbers {
-                font-size: 2em;
-            }
-
-            input[type="number"] {
-                width: 120px;
-                font-size: 1.2em;
+                font-size: 1.6em;
             }
 
             .task-type button {
                 margin: 5px;
                 padding: 10px 20px;
+            }
+
+            .factorization-box {
+                padding: 15px;
             }
         }
     </style>
@@ -284,7 +394,7 @@
 <body>
     <div class="container">
         <h1>🎓 Matematyka</h1>
-        <p class="subtitle">Ćwicz NWD i NWW</p>
+        <p class="subtitle">Ćwicz NWD i NWW - Krok po kroku</p>
 
         <div class="stats">
             <div class="stat">
@@ -302,26 +412,23 @@
             <button id="nwwBtn" onclick="changeTaskType('NWW')">NWW</button>
         </div>
 
-        <div class="question">
-            <div class="question-text">Oblicz <span id="taskTypeName">NWD</span>:</div>
-            <div class="numbers">
-                <span id="num1">12</span> i <span id="num2">8</span>
-            </div>
-            <div class="input-group">
-                <input type="number" id="answer" placeholder="Odp" min="1">
-            </div>
-            <div class="buttons">
-                <button class="btn-check" onclick="checkAnswer()">Sprawdź</button>
-                <button class="btn-new" onclick="newTask()">Nowe zadanie</button>
-                <button class="btn-show" onclick="showExplanation()">Pokaż rozwiązanie</button>
-            </div>
-
-            <div class="feedback" id="feedback"></div>
-            <div class="explanation" id="explanation">
-                <h3>Rozwiązanie:</h3>
-                <div class="explanation-content" id="explanationContent"></div>
-            </div>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressBar" style="width: 0%"></div>
         </div>
+
+        <div class="step-indicator" id="stepIndicator">Krok 1 z 4</div>
+
+        <div class="question" id="questionBox">
+            <!-- Treść będzie dynamicznie generowana przez JavaScript -->
+        </div>
+
+        <div class="buttons">
+            <button class="btn-check" id="checkBtn" onclick="checkStep()">Sprawdź</button>
+            <button class="btn-skip" id="skipBtn" onclick="skipToAnswer()">Pomiń i pokaż rozwiązanie</button>
+            <button class="btn-new" onclick="newTask()">Nowe zadanie</button>
+        </div>
+
+        <div class="feedback" id="feedback"></div>
     </div>
 
     <script>
@@ -330,6 +437,16 @@
         let currentNum2 = 8;
         let correctAnswers = 0;
         let incorrectAnswers = 0;
+        let currentStep = 1; // 1-4
+
+        // Stan rozkładu użytkownika
+        let userFactors1 = [];
+        let userFactors2 = [];
+        let selectedCommonFactors = [];
+
+        // Pomocnicze
+        let currentNumber = 0; // Aktualna liczba w rozkładzie
+        let currentDivisors = []; // Dzielniki wprowadzone przez użytkownika
 
         // Funkcja obliczająca NWD (Algorytm Euklidesa)
         function gcd(a, b) {
@@ -364,12 +481,6 @@
             return factors;
         }
 
-        // Formatowanie czynników do wyświetlenia (pełny iloczyn)
-        function formatFactors(factors) {
-            if (factors.length === 0) return '1';
-            return factors.join(' × ');
-        }
-
         // Znajdowanie wspólnych czynników
         function findCommonFactors(factors1, factors2) {
             let common = [];
@@ -398,24 +509,26 @@
 
             // Opcjonalnie: upewniamy się że liczby nie są zbyt duże
             if (currentNum1 > 100 || currentNum2 > 100) {
-                // Jeśli za duże, zmniejszamy mnożniki
                 const scale = Math.max(currentNum1, currentNum2) / 100;
                 currentNum1 = Math.floor(currentNum1 / scale);
                 currentNum2 = Math.floor(currentNum2 / scale);
             }
 
-            document.getElementById('num1').textContent = currentNum1;
-            document.getElementById('num2').textContent = currentNum2;
-            document.getElementById('answer').value = '';
+            // Reset stanu
+            currentStep = 1;
+            userFactors1 = [];
+            userFactors2 = [];
+            selectedCommonFactors = [];
+            currentNumber = 0;
+            currentDivisors = [];
+
             document.getElementById('feedback').classList.remove('show');
-            document.getElementById('explanation').classList.remove('show');
-            document.getElementById('answer').focus();
+            updateStep();
         }
 
         // Zmiana typu zadania
         function changeTaskType(type) {
             currentTaskType = type;
-            document.getElementById('taskTypeName').textContent = type;
 
             // Aktualizacja przycisków
             if (type === 'NWD') {
@@ -429,72 +542,369 @@
             newTask();
         }
 
-        // Sprawdzanie odpowiedzi
-        function checkAnswer() {
-            const userAnswer = parseInt(document.getElementById('answer').value);
-            const correctAnswer = currentTaskType === 'NWD'
-                ? gcd(currentNum1, currentNum2)
-                : lcm(currentNum1, currentNum2);
+        // Aktualizacja kroku
+        function updateStep() {
+            const progressPercent = ((currentStep - 1) / 3) * 100;
+            document.getElementById('progressBar').style.width = progressPercent + '%';
+            document.getElementById('stepIndicator').textContent = `Krok ${currentStep} z 4`;
 
-            const feedbackEl = document.getElementById('feedback');
+            const questionBox = document.getElementById('questionBox');
 
-            if (isNaN(userAnswer)) {
-                feedbackEl.textContent = '⚠️ Wpisz odpowiedź!';
-                feedbackEl.className = 'feedback error show';
-                return;
-            }
-
-            if (userAnswer === correctAnswer) {
-                correctAnswers++;
-                document.getElementById('correctCount').textContent = correctAnswers;
-                feedbackEl.textContent = '✅ Świetnie! Dobrze!';
-                feedbackEl.className = 'feedback success show';
-            } else {
-                incorrectAnswers++;
-                document.getElementById('incorrectCount').textContent = incorrectAnswers;
-                feedbackEl.textContent = `❌ Nie tym razem. Prawidłowa odpowiedź to ${correctAnswer}`;
-                feedbackEl.className = 'feedback error show';
+            if (currentStep === 1) {
+                // Krok 1: Rozkład pierwszej liczby
+                currentNumber = currentNum1;
+                currentDivisors = [];
+                questionBox.innerHTML = renderFactorizationStep(currentNum1, 1);
+            } else if (currentStep === 2) {
+                // Krok 2: Rozkład drugiej liczby
+                currentNumber = currentNum2;
+                currentDivisors = [];
+                questionBox.innerHTML = renderFactorizationStep(currentNum2, 2);
+            } else if (currentStep === 3) {
+                // Krok 3: Zaznacz wspólne czynniki
+                questionBox.innerHTML = renderCommonFactorsStep();
+            } else if (currentStep === 4) {
+                // Krok 4: Oblicz wynik
+                questionBox.innerHTML = renderFinalAnswerStep();
             }
         }
 
-        // Pokazanie wyjaśnienia
-        function showExplanation() {
-            const factors1 = primeFactorization(currentNum1);
-            const factors2 = primeFactorization(currentNum2);
-            const commonFactors = findCommonFactors(factors1, factors2);
+        // Renderowanie kroku rozkładu
+        function renderFactorizationStep(number, stepNum) {
+            let html = `
+                <div class="question-text">Krok ${stepNum}: Rozłóż liczbę ${number} na czynniki pierwsze</div>
+                <div class="numbers">${number}</div>
+                <div class="factorization-box">
+                    <div class="factorization-title">Rozkład przy kresce:</div>
+                    <div id="kreskaContainer"></div>
+                </div>
+                <div class="hint">Wpisz dzielnik i naciśnij Enter lub kliknij "Sprawdź"</div>
+            `;
+
+            setTimeout(() => {
+                renderKreska();
+                const firstInput = document.querySelector('.kreska-input');
+                if (firstInput) firstInput.focus();
+            }, 0);
+
+            return html;
+        }
+
+        // Renderowanie interfejsu "przy kresce"
+        function renderKreska() {
+            const container = document.getElementById('kreskaContainer');
+            if (!container) return;
+
+            let num = currentStep === 1 ? currentNum1 : currentNum2;
+            let html = '';
+
+            // Odtwarzamy poprzednie kroki
+            currentDivisors.forEach(divisor => {
+                html += `
+                    <div class="kreska-row">
+                        <div class="kreska-number">${num}</div>
+                        <div class="kreska-divider"></div>
+                        <div class="kreska-result">${divisor}</div>
+                    </div>
+                `;
+                num = num / divisor;
+            });
+
+            // Aktualny wiersz
+            if (num > 1) {
+                html += `
+                    <div class="kreska-row">
+                        <div class="kreska-number">${num}</div>
+                        <div class="kreska-divider"></div>
+                        <input type="number" class="kreska-input" id="divisorInput"
+                               min="2" placeholder="?" onkeypress="handleDivisorEnter(event)">
+                    </div>
+                `;
+            } else {
+                // Gotowe!
+                html += `
+                    <div class="kreska-row">
+                        <div class="kreska-number">1</div>
+                        <div class="kreska-divider"></div>
+                        <div class="kreska-result">✓</div>
+                    </div>
+                `;
+            }
+
+            container.innerHTML = html;
+        }
+
+        // Obsługa Enter w polu dzielnika
+        function handleDivisorEnter(event) {
+            if (event.key === 'Enter') {
+                checkStep();
+            }
+        }
+
+        // Sprawdzanie kroku
+        function checkStep() {
+            const feedback = document.getElementById('feedback');
+
+            if (currentStep === 1 || currentStep === 2) {
+                // Sprawdzanie dzielnika
+                const input = document.getElementById('divisorInput');
+                if (!input) {
+                    // Rozkład zakończony, przechodzimy dalej
+                    if (currentStep === 1) {
+                        userFactors1 = [...currentDivisors];
+                    } else {
+                        userFactors2 = [...currentDivisors];
+                    }
+                    currentStep++;
+                    updateStep();
+                    feedback.classList.remove('show');
+                    return;
+                }
+
+                const divisor = parseInt(input.value);
+                let num = currentStep === 1 ? currentNum1 : currentNum2;
+
+                // Oblicz aktualną liczbę
+                currentDivisors.forEach(d => {
+                    num = num / d;
+                });
+
+                if (isNaN(divisor) || divisor < 2) {
+                    feedback.textContent = '⚠️ Wpisz liczbę większą lub równą 2';
+                    feedback.className = 'feedback error show';
+                    return;
+                }
+
+                if (num % divisor !== 0) {
+                    feedback.textContent = `❌ ${num} nie dzieli się przez ${divisor}. Spróbuj innej liczby.`;
+                    feedback.className = 'feedback error show';
+                    return;
+                }
+
+                // Sprawdź czy to liczba pierwsza
+                if (!isPrime(divisor)) {
+                    feedback.textContent = `⚠️ ${divisor} nie jest liczbą pierwszą. Użyj liczby pierwszej (2, 3, 5, 7, 11...)`;
+                    feedback.className = 'feedback error show';
+                    return;
+                }
+
+                // Poprawny dzielnik!
+                currentDivisors.push(divisor);
+                feedback.textContent = `✅ Dobrze! ${num} ÷ ${divisor} = ${num / divisor}`;
+                feedback.className = 'feedback success show';
+
+                renderKreska();
+
+                setTimeout(() => {
+                    const nextInput = document.getElementById('divisorInput');
+                    if (nextInput) {
+                        nextInput.focus();
+                        feedback.classList.remove('show');
+                    }
+                }, 800);
+
+            } else if (currentStep === 3) {
+                // Sprawdzanie wspólnych czynników
+                const correctCommon = findCommonFactors(userFactors1, userFactors2);
+
+                if (selectedCommonFactors.length === 0) {
+                    feedback.textContent = '⚠️ Zaznacz wspólne czynniki klikając na nie';
+                    feedback.className = 'feedback error show';
+                    return;
+                }
+
+                // Sprawdź czy wybrane czynniki są poprawne
+                const sortedSelected = [...selectedCommonFactors].sort((a, b) => a - b);
+                const sortedCorrect = [...correctCommon].sort((a, b) => a - b);
+
+                if (JSON.stringify(sortedSelected) === JSON.stringify(sortedCorrect)) {
+                    feedback.textContent = '✅ Świetnie! To są wszystkie wspólne czynniki!';
+                    feedback.className = 'feedback success show';
+
+                    setTimeout(() => {
+                        currentStep++;
+                        updateStep();
+                        feedback.classList.remove('show');
+                    }, 1500);
+                } else {
+                    feedback.textContent = '❌ To nie wszystkie wspólne czynniki. Spróbuj jeszcze raz.';
+                    feedback.className = 'feedback error show';
+                }
+
+            } else if (currentStep === 4) {
+                // Sprawdzanie ostatecznej odpowiedzi
+                const input = document.getElementById('finalAnswer');
+                const userAnswer = parseInt(input.value);
+                const correctAnswer = currentTaskType === 'NWD'
+                    ? gcd(currentNum1, currentNum2)
+                    : lcm(currentNum1, currentNum2);
+
+                if (isNaN(userAnswer)) {
+                    feedback.textContent = '⚠️ Wpisz odpowiedź!';
+                    feedback.className = 'feedback error show';
+                    return;
+                }
+
+                if (userAnswer === correctAnswer) {
+                    correctAnswers++;
+                    document.getElementById('correctCount').textContent = correctAnswers;
+                    feedback.textContent = '✅ Brawo! Rozwiązałeś całe zadanie poprawnie!';
+                    feedback.className = 'feedback success show';
+                } else {
+                    incorrectAnswers++;
+                    document.getElementById('incorrectCount').textContent = incorrectAnswers;
+                    feedback.textContent = `❌ Nie tym razem. Prawidłowa odpowiedź to ${correctAnswer}`;
+                    feedback.className = 'feedback error show';
+                }
+            }
+        }
+
+        // Sprawdzanie czy liczba jest pierwsza
+        function isPrime(n) {
+            if (n < 2) return false;
+            if (n === 2) return true;
+            if (n % 2 === 0) return false;
+            for (let i = 3; i * i <= n; i += 2) {
+                if (n % i === 0) return false;
+            }
+            return true;
+        }
+
+        // Renderowanie kroku wyboru wspólnych czynników
+        function renderCommonFactorsStep() {
+            selectedCommonFactors = [];
+
+            let html = `
+                <div class="question-text">Krok 3: Zaznacz wspólne czynniki</div>
+                <div class="numbers">${currentNum1} i ${currentNum2}</div>
+
+                <div class="factors-selection">
+                    <p style="text-align: center; margin: 15px 0;"><strong>Liczba ${currentNum1}:</strong> ${userFactors1.join(' × ')}</p>
+                    <p style="text-align: center; margin: 15px 0;"><strong>Liczba ${currentNum2}:</strong> ${userFactors2.join(' × ')}</p>
+
+                    <p style="text-align: center; margin: 20px 0; font-weight: bold; color: #667eea;">
+                        Kliknij na czynniki, które występują w obu liczbach:
+                    </p>
+
+                    <div class="factors-list" id="factorsList"></div>
+                </div>
+                <div class="hint">Kliknij na te same liczby z obu rozkładów</div>
+            `;
+
+            setTimeout(() => {
+                renderFactorsList();
+            }, 0);
+
+            return html;
+        }
+
+        // Renderowanie listy czynników do wyboru
+        function renderFactorsList() {
+            const container = document.getElementById('factorsList');
+            if (!container) return;
+
+            // Wszystkie unikalne czynniki
+            const allFactors = [...new Set([...userFactors1, ...userFactors2])].sort((a, b) => a - b);
+
+            let html = '';
+            allFactors.forEach(factor => {
+                const count1 = userFactors1.filter(f => f === factor).length;
+                const count2 = userFactors2.filter(f => f === factor).length;
+                const maxCommon = Math.min(count1, count2);
+
+                for (let i = 0; i < Math.max(count1, count2); i++) {
+                    const canSelect = i < maxCommon;
+                    const id = `factor_${factor}_${i}`;
+                    html += `<div class="factor-item ${canSelect ? '' : 'disabled'}"
+                                  id="${id}"
+                                  onclick="${canSelect ? `toggleFactor(${factor}, '${id}')` : ''}">${factor}</div>`;
+                }
+            });
+
+            container.innerHTML = html;
+        }
+
+        // Przełączanie wyboru czynnika
+        function toggleFactor(factor, id) {
+            const element = document.getElementById(id);
+            if (element.classList.contains('selected')) {
+                element.classList.remove('selected');
+                const index = selectedCommonFactors.indexOf(factor);
+                if (index > -1) {
+                    selectedCommonFactors.splice(index, 1);
+                }
+            } else {
+                element.classList.add('selected');
+                selectedCommonFactors.push(factor);
+            }
+        }
+
+        // Renderowanie ostatecznego kroku
+        function renderFinalAnswerStep() {
+            const commonProduct = selectedCommonFactors.reduce((a, b) => a * b, 1);
+
+            let hint = '';
+            if (currentTaskType === 'NWD') {
+                hint = `Mnożymy wspólne czynniki: ${selectedCommonFactors.join(' × ')} = ${commonProduct}`;
+            } else {
+                hint = `Wzór: NWW = (${currentNum1} × ${currentNum2}) ÷ NWD<br>
+                       NWD = ${commonProduct}<br>
+                       NWW = ${currentNum1 * currentNum2} ÷ ${commonProduct}`;
+            }
+
+            return `
+                <div class="question-text">Krok 4: Oblicz ${currentTaskType}</div>
+                <div class="numbers">${currentTaskType}(${currentNum1}, ${currentNum2}) = ?</div>
+
+                <div style="text-align: center; margin: 20px 0; color: #666;">
+                    <p><strong>Rozkład liczby ${currentNum1}:</strong> ${userFactors1.join(' × ')}</p>
+                    <p><strong>Rozkład liczby ${currentNum2}:</strong> ${userFactors2.join(' × ')}</p>
+                    <p style="margin-top: 15px;"><strong>Wspólne czynniki:</strong> ${selectedCommonFactors.join(' × ')}</p>
+                </div>
+
+                <div style="background: #fef3c7; padding: 15px; border-radius: 10px; margin: 20px 0;">
+                    <p style="text-align: center; color: #92400e;">${hint}</p>
+                </div>
+
+                <div class="input-group">
+                    <input type="number" id="finalAnswer" placeholder="Odp" min="1" onkeypress="handleFinalEnter(event)">
+                </div>
+            `;
+        }
+
+        // Obsługa Enter w ostatecznej odpowiedzi
+        function handleFinalEnter(event) {
+            if (event.key === 'Enter') {
+                checkStep();
+            }
+        }
+
+        // Pominięcie do rozwiązania
+        function skipToAnswer() {
+            const correctFactors1 = primeFactorization(currentNum1);
+            const correctFactors2 = primeFactorization(currentNum2);
+            const commonFactors = findCommonFactors(correctFactors1, correctFactors2);
             const nwdValue = gcd(currentNum1, currentNum2);
             const nwwValue = lcm(currentNum1, currentNum2);
 
-            let explanation = `
-                <p><strong>Rozkład na czynniki:</strong></p>
-                <p>${currentNum1} = ${formatFactors(factors1)}</p>
-                <p>${currentNum2} = ${formatFactors(factors2)}</p>
-                <br>
-                <p><strong>Wspólne czynniki:</strong> ${formatFactors(commonFactors)}</p>
-                <p style="font-size: 0.9em; color: #666;">To są liczby, które występują w obu rozkładach.</p>
-                <br>
-                <p><strong>NWD(${currentNum1}, ${currentNum2}) = ${nwdValue}</strong></p>
-                <p style="font-size: 0.9em; color: #666;">Mnożymy wspólne czynniki: ${formatFactors(commonFactors)} = ${nwdValue}</p>
-                <p style="font-size: 0.85em; color: #888;">NWD to największa liczba, która dzieli obie liczby.</p>
-                <br>
-                <p><strong>NWW(${currentNum1}, ${currentNum2}) = ${nwwValue}</strong></p>
-                <p style="font-size: 0.9em; color: #666;">Mnożymy obie liczby i dzielimy przez NWD:</p>
-                <p style="font-size: 0.9em; color: #666;">${currentNum1} × ${currentNum2} ÷ ${nwdValue} = ${currentNum1 * currentNum2} ÷ ${nwdValue} = ${nwwValue}</p>
-                <p style="font-size: 0.85em; color: #888;">NWW to najmniejsza liczba, która dzieli się przez obie liczby.</p>
+            const feedback = document.getElementById('feedback');
+            feedback.innerHTML = `
+                <div style="text-align: left;">
+                    <p><strong>Rozwiązanie krok po kroku:</strong></p><br>
+                    <p><strong>1. Rozkład ${currentNum1}:</strong> ${correctFactors1.join(' × ')}</p>
+                    <p><strong>2. Rozkład ${currentNum2}:</strong> ${correctFactors2.join(' × ')}</p>
+                    <p><strong>3. Wspólne czynniki:</strong> ${commonFactors.join(' × ')}</p>
+                    <p><strong>4. NWD = ${commonFactors.join(' × ')} = ${nwdValue}</strong></p>
+                    <p><strong>5. NWW = ${currentNum1} × ${currentNum2} ÷ ${nwdValue} = ${nwwValue}</strong></p>
+                </div>
             `;
-
-            document.getElementById('explanationContent').innerHTML = explanation;
-            document.getElementById('explanation').classList.add('show');
+            feedback.className = 'feedback show';
+            feedback.style.background = '#fef3c7';
+            feedback.style.color = '#78350f';
+            feedback.style.borderColor = '#f59e0b';
         }
 
-        // Obsługa klawisza Enter
-        document.getElementById('answer').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                checkAnswer();
-            }
-        });
-
-        // Inicjalizacja - generowanie pierwszego zadania
+        // Inicjalizacja
         window.onload = function() {
             newTask();
         };
